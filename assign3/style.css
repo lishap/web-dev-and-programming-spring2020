@@ -1,0 +1,26 @@
+@import"style_2.css";
+
+header{
+  margin: 0 auto;
+}
+
+.mainContent{
+  display: flex;
+}
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+#hello{
+  font-family: sans-serif;
+}
+
+#good{
+  font-size: medium;
+}
+
+#sir{
+  font-style: italic;
+}

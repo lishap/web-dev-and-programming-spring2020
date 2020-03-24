@@ -1,0 +1,148 @@
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Assign 4 - Blackjack</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body onload="checkCookie()">
+    <h3>Welcome to Lisha's Casino</h3>
+    <div class="cardImages">
+        <div id="card1Image">
+            <img src="cards/cardback.png"/>
+        </div>
+        <div id="card2Image">
+            <img src="cards/cardback.png"/>
+        </div>
+    </div> <!--END cardImages-->
+    <div class="cardPointsValue">
+        <form>
+            <label for="card1PointsValue"> Points for Card 1: </label>
+            <input type="text" id="card1PointsValue" name="card1PointsValue" size="2" value = "">
+            <label for="card2PointsValue"> Points for Card 2:</label>
+            <input type="text" id="card2PointsValue" name="card2PointsValue" size="2" value = "">
+        </form>
+    </div>
+    <div class="totalPointsHandsValue">
+        <form>
+            <label for="totalPointsValue"> Points for the hand: </label>
+            <input type="text" id="totalPointsValue" name="totalPointsValue" size="2" value="">
+        </form>
+        <form>
+            <label for="totalHandsValue"> Number of hands so far: </label>
+            <input type="text" id="totalHandsValue" name="totalHandsValue" value="">
+        </form>
+    </div>
+    <button id="deal" onclick="dealCards()"> Deal A Hand </button> 
+    <br>
+    <button id="close" onclick="closeWindow()"> Close Blackjack Window</button>
+
+    <script type="text/javascript">
+        var cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];  //create card array
+        var card1Points;    var card2Points; 
+        var totalHands = 0; //declare counters
+        var identicalPairsTotal = 0;
+        var blackjacksTotal = 0;
+    
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+    
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+            }
+    
+        function checkCookie() {
+            var user = getCookie("username");
+            if (user == null) {
+                user = prompt("Please enter your name:", "");
+                setCookie("username", user, 365);
+                console.log("username = not stored");
+            } else {
+                document.getElementsByTagName("h3").innerHTML = "Welcome back" + user + "! You have won " + blackjacksTotal + "so far!";
+                console.log("username =", user)
+            }
+        }
+       
+        //declare variables and set to two random cards
+        function dealCards(){
+            
+            var card1 = Math.floor( Math.random() * cards.length); //get random card1
+            var card2 = Math.floor( Math.random() * cards.length); // get random card 2
+            
+            //function to assign points
+        
+            if (cards[card1] > 11){           
+                card1Points = 10;
+            } else {
+            card1Points = cards[card1]; 
+            }
+            
+            if (cards[card1] == cards[card2]){
+                console.log("card 2 == card 1")
+                
+                if (cards[card1] == 11){
+                    //cards[card2] = 11
+                    card2Points = 1;
+                    identicalPairsTotal += 1;
+                    totalHands +=1;
+                    console.log("card 1 && card 2 = 11")
+    
+                } else {
+                    card2Points = card1Points;
+                    identicalPairsTotal += 1;
+                    totalHands +=1;
+                    console.log("card 2 = card 1 && != 11")
+                    }
+            } else if (cards[card2] > 11) {
+                    card2Points = 10;
+                    totalHands +=1;
+                    console.log("card2 > 11 && = 10")
+    
+            } else {
+                card2Points = cards[card2];
+                totalHands +=1;
+                console.log("card2 = !card 1 && < 11 ")
+            }
+    
+            var totalPoints = (card1Points + card2Points);
+            
+            if (card1Points + card2Points == 21){
+                blackjacksTotal += 1;
+                console.log("blackjack");      
+                blackjackWindow = window.open("/blackjack.html");
+                console.log("open blackjack window"); 
+            }
+            
+            function closeWindow(){
+                blackjackWindow.close();
+            }
+            
+            //display on webpage from function
+            document.getElementById("card1Image").innerHTML = '<img src="cards/' + cards[card1] + '.png" />'; //DISPLAY CARDS
+            if (card2Points != 1){
+                document.getElementById("card2Image").innerHTML = '<img src="cards/' + cards[card2] + '.png" />';
+            } else {
+                document.getElementById("card2Image").innerHTML = '<img src="cards/' + 11 + '.png" />';
+            }
+            document.getElementById("card1PointsValue").value = card1Points;    
+            document.getElementById("card2PointsValue").value = card2Points;
+            document.getElementById("totalPointsValue").value = totalPoints;
+            document.getElementById("totalHandsValue").value = totalHands;
+        }
+    </script>
+</body>
+</html>

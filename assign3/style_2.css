@@ -1,0 +1,8 @@
+ul{
+  font-family: arial;
+}
+
+table, td {
+  border: 1px solid black;
+  margin: 5px;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>assign2_Payne</title>
+	<script type="text/javascript">
+	var guessCount = 1
+	
+	function onload(){
+		binarySearch(0,150)
+		}
+	
+	function binarySearch(min,max){
+		var guess;
+		var midpoint = Math.floor((min + max)/2) // declare variable midpoint and get integer
+		ageConfirm = confirm("Is your age " +midpoint+ " ?")
+		if  (ageConfirm == true){
+			alert("It took me " +guessCount+ " guesses!")
+			return
+		}
+		guess=(confirm("Is your age greater than " + midpoint + " ?")) //ask greater than
+		guessCount+=1													// add to count
+			if (guess == true) {
+				min=midpoint;
+				binarySearch(min,max)
+			} else {
+				max=midpoint; // set min to midpoint
+				binarySearch(min,max)
+			}
+		}	
+	</script>
+</head>
+<body onload="onload()">
+</body>
+</html>
